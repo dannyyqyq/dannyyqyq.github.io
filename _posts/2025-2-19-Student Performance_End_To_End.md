@@ -7,7 +7,7 @@ github_repo: "[dannyyqyq/Student_performance](https://github.com/dannyyqyq/Stude
 ---
 
 # 🎓 End-to-End Student Performance Prediction Project
-For more details, check out the [project repository on GitHub]([(https://github.com/dannyyqyq/Student_performance)].
+For more details, check out the [project repository on GitHub](https://github.com/dannyyqyq/Student_performance).
 ## 📌 Project Overview
 This project aims to predict student performance based on academic and socio-economic factors, helping educators and policymakers make data-driven decisions. The project covers:
 
