@@ -30,6 +30,12 @@ This project develops a system to detect phishing attempts by analyzing network 
 - **CI/CD**: GitHub Actions for continuous integration and deployment.
 - **Others**: `pymongo` for MongoDB interactions, `dill` for serialization, `pandas` for data manipulation, `certifi` for SSL certificate handling, AWS S3 for cloud storage.
 
+### 🚀 Deployment & CI/CD
+- **GitHub Actions**: Utilized for an automated CI/CD pipeline, ensuring code quality and consistency from development to production.
+- **Docker**: Employed for containerization, which supports uniform deployment across different environments.
+- **AWS S3**: Acts as storage for model artifacts, data backups, and logs, facilitating data preservation and recovery.
+- **MongoDB Atlas**: Provides a scalable and secure database solution for data storage and management in the cloud.
+  
 ## 📊 Key Features
 
 - **Data Extraction and Storage**: Converts CSV to JSON, stores in MongoDB, and syncs with AWS S3.
