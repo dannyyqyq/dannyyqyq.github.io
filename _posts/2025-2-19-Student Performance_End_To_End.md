@@ -39,20 +39,35 @@ This project aims to predict student performance based on academic and socio-eco
 
 ```
 student_performance_project/
-│── src/components/
-│   ├── data_ingestion.py  # Reads and splits data
-│   ├── data_transformation.py  # Preprocessing (scaling, encoding)
-│   ├── model_trainer.py  # Trains ML models
-│
-│── src/pipeline/
-│   ├── prediction_pipeline.py  # Manages the prediction pipeline
-│
-│── main/
-│   ├── setup.py  # Project setup
-│   ├── application.py  # Flask app
-│   ├── requirements.txt  # Python dependencies
-│   ├── Dockerfile  # Container configuration
-│   ├── .pre-commit-config.yaml  # Pre-commit hooks
+student_performance/
+├── .ebextensions/
+│   └── python.config
+├── artifacts/
+│   ├── model.pkl
+│   └── preprocessing.pkl
+├── src/
+│   ├── component/
+│   │   ├── __init__.py
+│   │   ├── data_ingestion.py
+│   │   ├── data_transformation.py
+│   │   └── model_trainer.py
+│   ├── pipeline/
+│   │   ├── __init__.py
+│   │   └── prediction_pipeline.py
+│   ├── __init__.py
+│   ├── exception.py
+│   ├── logger.py
+│   └── utils.py
+├── templates/
+│   ├── home.html
+│   └── index.html
+├── .gitignore
+├── .pre-commit-config.yaml
+├── Dockerfile
+├── README.md
+├── application.py
+├── requirements.txt
+└── setup.py
 ```
 
 ## 🚀 How It Works
