@@ -3,6 +3,7 @@ layout: post
 title: Student Performance End-to-End Deployment Project
 image: "/posts/student_performance.webp"
 tags: [Python, Machine Learning, Student Performance, Data Science, Flask, Docker, AWS, Azure]
+github_repo: "dannyyqyq/Student_performance"
 ---
 
 # 🎓 End-to-End Student Performance Prediction Project
