@@ -2,8 +2,8 @@
 layout: post
 title: Network Security System for Phishing Data
 image: "/posts/network.jpg"
-tags: [Python, Machine Learning, Network Security, MongoDB, MLflow, FastAPI]
-github_repo: "[dannyyqyq/Student_performance](https://github.com/dannyyqyq/network_security)
+tags: [Python, Machine Learning, Network Security, MongoDB, MLflow, FastAPI, AWS, Docker]
+github_repo: "[dannyyqyq/Student_performance](https://github.com/dannyyqyq/network_security)"
 ---
 
 # 🔒 Network Security System for Phishing Data End-to-End Deployment Project
