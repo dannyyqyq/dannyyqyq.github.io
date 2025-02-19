@@ -105,6 +105,7 @@ best_model_score = max(model_report.values(), key=lambda x: x['Test r2 score'])
 ### 3️⃣ Prediction Pipeline
 - Loads the trained model and preprocessor.
 - Transforms new input data and makes predictions.
+  
 ```python
 def predict(self, features):
     model = load_object(file_path="artifacts/model.pkl")
