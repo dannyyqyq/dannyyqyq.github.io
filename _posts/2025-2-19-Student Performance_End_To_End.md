@@ -117,6 +117,7 @@ def predict(self, features):
 ### 4️⃣ Web Application
 - Uses Flask for a simple web UI.
 - Allows users to input student features and get predicted scores.
+  
 ```python
 from flask import Flask, request, render_template
 from src.pipeline.prediction_pipeline import CustomData, PredictionPipeline
@@ -140,7 +141,7 @@ def predict_data():
         results = prediction_pipeline.predict(pred_df)
         return render_template("home.html", results=results[0])
     return render_template("home.html")
-  ```
+```
 
 ### 5️⃣ Deployment
 - **Docker**: Application is containerized for easy deployment.
