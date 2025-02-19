@@ -140,7 +140,7 @@ def predict_data():
         results = prediction_pipeline.predict(pred_df)
         return render_template("home.html", results=results[0])
     return render_template("home.html")
-```
+  ```
 
 ### 5️⃣ Deployment
 - **Docker**: Application is containerized for easy deployment.
