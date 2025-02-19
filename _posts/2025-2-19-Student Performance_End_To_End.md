@@ -3,11 +3,11 @@ layout: post
 title: Student Performance End-to-End Deployment Project
 image: "/posts/student_performance.webp"
 tags: [Python, Machine Learning, Student Performance, Data Science, Flask, Docker, AWS, Azure]
-github_repo: "dannyyqyq/Student_performance"
+github_repo: "[dannyyqyq/Student_performance](https://github.com/dannyyqyq/Student_performance)"
 ---
 
 # 🎓 End-to-End Student Performance Prediction Project
-
+For more details, check out the [project repository on GitHub]([https://github.com/your-username/your-repo-name](https://github.com/dannyyqyq/Student_performance).
 ## 📌 Project Overview
 This project aims to predict student performance based on academic and socio-economic factors, helping educators and policymakers make data-driven decisions. The project covers:
 
