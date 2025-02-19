@@ -13,7 +13,7 @@ For more details, check out the [project repository on GitHub](https://github.co
 
 This project develops a system to detect phishing attempts by analyzing network data. It combines machine learning techniques with secure data storage and processing. This project covers:
 
-- **Data Handling**: Efficient management of network data using MongoDB for secure storage and retrieval.\
+- **Data Handling**: Efficient management of network data using MongoDB for secure storage and retrieval.
 - **Data Ingestion**: Extracting data from various sources, converting it into a usable format, and preparing it for analysis.
 - **Model Training**: Application of machine learning techniques like Random Forest, Decision Trees, and Gradient Boosting to train models for identifying phishing patterns.
 - **Prediction Pipeline**: Utilizing trained models to make real-time predictions on new data.
@@ -106,6 +106,7 @@ network_security/
 ├── push_data.py
 ├── requirements.txt
 └── setup.py
+```
 
 ## 🚀 How It Works
 
