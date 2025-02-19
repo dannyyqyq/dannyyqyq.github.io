@@ -76,17 +76,70 @@ student_performance/
 - Reads CSV data, splits it into train/test sets.
 - Preprocesses features by scaling and encoding categorical data.
 
+Here's a snippet from `data_ingestion.py`:
+
+```python
+def initiate_data_ingestion(self):
+    df = pd.read_csv("notebooks/data/stud.csv")
+    train_set, test_set = train_test_split(df, test_size=0.3, random_state=42)
+    # ... (further processing)
+    return train_set, test_set
+```
+
 ### 2️⃣ Model Training
 - Trains multiple regression models and evaluates them.
 - Selects the best model based on the **R² score**.
+A snippet from `model_trainer.py` where models are trained:
+
+```python
+models = {
+    "Linear Regression": LinearRegression(),
+    "Decision Tree": DecisionTreeRegressor(),
+    # ... other models
+}
+
+model_report = evaluate_model(X_train, y_train, X_test, y_test, models=models)
+best_model_score = max(model_report.values(), key=lambda x: x['Test r2 score'])
+```
 
 ### 3️⃣ Prediction Pipeline
 - Loads the trained model and preprocessor.
 - Transforms new input data and makes predictions.
+```python
+def predict(self, features):
+    model = load_object(file_path="artifacts/model.pkl")
+    preprocessor = load_object(file_path="artifacts/preprocessing.pkl")
+    data_scaled = preprocessor.transform(features)
+    return model.predict(data_scaled)
+```
 
 ### 4️⃣ Web Application
 - Uses Flask for a simple web UI.
 - Allows users to input student features and get predicted scores.
+```python
+from flask import Flask, request, render_template
+from src.pipeline.prediction_pipeline import CustomData, PredictionPipeline
+
+app = Flask(__name__)
+
+@app.route("/predict_data", methods=["GET", "POST"])
+def predict_data():
+    if request.method == "POST":
+        data = CustomData(
+            gender=request.form.get("gender"),
+            race_ethnicity=request.form.get("race_ethnicity"),
+            parental_level_of_education=request.form.get("parental_level_of_education"),
+            lunch=request.form.get("lunch"),
+            test_preparation_course=request.form.get("test_preparation_course"),
+            writing_score=int(request.form.get("writing_score")),
+            reading_score=int(request.form.get("reading_score")),
+        )
+        pred_df = data.get_data_as_dataframe()
+        prediction_pipeline = PredictionPipeline()
+        results = prediction_pipeline.predict(pred_df)
+        return render_template("home.html", results=results[0])
+    return render_template("home.html")
+```
 
 ### 5️⃣ Deployment
 - **Docker**: Application is containerized for easy deployment.
