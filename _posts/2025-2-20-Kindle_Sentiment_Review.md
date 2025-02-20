@@ -57,17 +57,11 @@ NLP_kindle_classification/
 │   │   ├── __init__.py
 │   │   ├── data_ingestion.py
 │   │   ├── data_transformation.py
-│   │   ├── data_validation.py
 │   │   └── model_trainer.py
-│   ├── utils/
-│   │   ├── __init__.py
-│   │   └── utils.py
-│   ├── exception/
-│   │   ├── __init__.py
-│   │   └── exception.py
-│   └── logger/
-│       ├── __init__.py
-│       └── logger.py
+│   ├── utils.py
+│   ├── exception.py
+│   └── logger.py
+│   └── __init__.py
 ├── .gitignore
 ├── .pre-commit-config.yaml
 ├── Dockerfile
@@ -99,8 +93,8 @@ def initiate_data_ingestion(self):
 
 ### 2️⃣ Data Transformation
 - Preprocesses review text by cleaning and normalizing it, converting ratings to binary sentiment labels.
-
-Here's a snippet from `data_ingestion.py`:
+  
+  Here's a snippet from `data_transformation.py`:
 ```python
 def data_transformation(self, df):
     try:
@@ -117,12 +111,36 @@ def data_transformation(self, df):
     except Exception as e:
         raise CustomException(e, sys)
 ```
+- Apply lemmatization to reduce words to their lemma (base form), improving feature representation for NLP models
+  
+  Here's a snippet from `data_transformation.py`:
+
+```python
+    def lemmatize_words(self, text):
+        """Lemmatizes a given text, handling NaN values gracefully."""
+        try:
+            if pd.isna(text):
+                return ""  # Convert NaN to an empty string to avoid errors
+            words = text.split()
+            return " ".join(self.lemmatizer.lemmatize(word) for word in words)
+        except Exception as e:
+            raise CustomException(e, sys)
+
+    def lemmatizer_transformation(self, df):
+        try:
+            df["reviewText"] = df["reviewText"].apply(self.lemmatize_words)
+            return df
+        except Exception as e:
+            raise CustomException(e, sys)
+```
 
 ### 3️⃣ Feature Extraction and Model Training
-- Trains models using multiple feature extraction techniques and selects the best based on accuracy.
+- Trains models using multiple feature extraction techniques
+- Selects the best model based on accuracy and save it as a object
 
 **Bag of Words (BoW)**
 - Using BOW, Converts text into a matrix of word counts, used with a Naive Bayes classifier.
+
 A snippet from `model_trainer.py`:
 ```python
 bow = CountVectorizer()
@@ -135,6 +153,7 @@ accuracy_score_bow = accuracy_score(y_test, y_pred_bow)
 
 **Term Frequency-Inverse Document Frequency(TF-IDF)**
 - Transforms text into TF-IDF features (term frequency-inverse document frequency), used with Naive Bayes
+  
 A snippet from `model_trainer.py`:
 ```python
 tfidf = TfidfVectorizer()
@@ -147,6 +166,7 @@ accuracy_score_tfidf = accuracy_score(y_test, y_pred_tfidf)
 
 **Word2Vec**
 - Trains a Word2Vec model to generate word embeddings for the review text.
+  
 A snippet from `model_trainer.py`:
 ```python
 def training_dataset_Word2Vec(df, vector_size=100):
@@ -159,6 +179,7 @@ def training_dataset_Word2Vec(df, vector_size=100):
 
 **AvgWord2Vec**
 - Computes the average Word2Vec vector for each review, used with Random Forest.
+  
 A snippet from `model_trainer.py`:
 ```python
 def avg_word2vec(model, doc):
@@ -174,6 +195,8 @@ X = [ModelTrainer.avg_word2vec(model, review_words) for review_words in words]
 ### 4️⃣ Prediction Pipeline
 - Loads the best model and Word2Vec model to predict sentiments. In this case, the best model uses Word2Vec model embeddings.
 - Returns None to Safeguard Against Invalid Input. If vector is None, it means the review couldn’t be vectorized (e.g., all words are unknown to the model). Attempting to reshape or predict on None would cause an error, so returning None prevents crashes and signals to the caller (e.g., the Streamlit app) that no prediction is possible.
+
+A snippet from `app.py`:
 ```python
 def predict(self, features):
     vector = avg_word2vec(w2v_model, features)
