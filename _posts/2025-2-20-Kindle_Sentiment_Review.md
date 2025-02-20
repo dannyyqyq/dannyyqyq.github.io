@@ -135,7 +135,7 @@ def data_transformation(self, df):
 ```
 
 ### 3️⃣ Feature Extraction and Model Training
-- Trains models using multiple feature extraction techniques
+- Using BOW, TFIDF and AvgWord2Vec embedings to train the model.
 - Selects the best model based on accuracy and save it as a object
 
 **Bag of Words (BoW)**
@@ -170,32 +170,67 @@ accuracy_score_tfidf = accuracy_score(y_test, y_pred_tfidf)
 A snippet from `model_trainer.py`:
 ```python
 def training_dataset_Word2Vec(df, vector_size=100):
-    model = Word2Vec(vector_size=vector_size, window=5)
-    words = [simple_preprocess(review) for review in df["reviewText"]]
-    model.build_vocab(words)
-    model.train(words, total_examples=len(words), epochs=model.epochs)
-    return df_final, model
+    try:
+        # Initialize Word2Vec model with default parameters
+        model = Word2Vec(vector_size=vector_size, window=5)
+
+        # Process each review directly instead of splitting into sentences
+        words = [simple_preprocess(review) for review in df["reviewText"]]
+
+        model.build_vocab(words)
+        model.train(words, total_examples=len(words), epochs=model.epochs)
+
+        # Compute average word vector per review
+        X = [
+            ModelTrainer.avg_word2vec(model, review_words) for review_words in words
+        ]
+
+        df_latest = pd.DataFrame(X)
+        df_final = pd.concat([df.reset_index(drop=True), df_latest], axis=1)
+
+        return df_final, model
 ```
 
 **AvgWord2Vec**
 - Computes the average Word2Vec vector for each review, used with Random Forest.
-  
 A snippet from `model_trainer.py`:
 ```python
-def avg_word2vec(model, doc):
-    return np.mean(
-        [model.wv[word] for word in doc if word in model.wv.index_to_key], axis=0)
-X = [ModelTrainer.avg_word2vec(model, review_words) for review_words in words]
+  def avg_word2vec(model, doc):
+      """
+      Compute the average word2vec vector for the words in the document (sentence).
+      """
+      return np.mean(
+          [model.wv[word] for word in doc if word in model.wv.index_to_key], axis=0)
 ```
 
 **Why AvgWord2Vec over Word2Vec**
 - Word2Vec: Creates a 100D vector per word. For "This book is great," it might yield [0.2, 0.3, ...] (This), [0.6, 0.7, ...] (book), [0.1, 0.1, ...] (is), [0.8, 0.9, ...] (great)—a variable-length list incompatible with Random Forest, which needs one fixed-size input. For "Reading feels dull," it could produce [0.4, 0.5, ...] (Reading), [0.3, 0.4, ...] (feels), [0.5, 0.6, ...] (dull)—another variable list.
 - AvgWord2Vec: Averages these into one 100D vector per review. For "This book is great," it might become [0.425, 0.5, ...]; for "Reading feels dull," it might yield [0.4, 0.5, ...]. This fixed-size vector ensures compatibility with classifiers while summarizing semantic content, despite losing word order.
 
+**Model Trainer for AvgWord2Vec**
+- Trains a Word2Vec model on text data from a DataFrame.
+  
+A snippet from `model_trainer.py`:
+```python
+train_vecs, word2vec_model = ModelTrainer.training_dataset_Word2Vec(train_data)
+test_vecs, _ = ModelTrainer.training_dataset_Word2Vec(test_data)
+
+logging.info(f"Train vectors shape: {train_vecs.shape}")
+logging.info(f"Test vectors shape: {test_vecs.shape}")
+
+X_train_vecs = train_vecs.iloc[:len(y_train), -vector_size:].values
+X_test_vecs = test_vecs.iloc[:len(y_test), -vector_size:].values
+```
+To prevent shape mismatched:
+
+- ` train_data_with_vecs.iloc[: len(y_train), ...]` ensures that only the first len(y_train) rows of the feature DataFrame are selected, matching the number of labels. This prevents shape mismatches during model training.
+- `-vector_size`: this selects the last columns of the dataframe, that contain the vector representation of the text.
+
+
 ### 4️⃣ Prediction Pipeline
 - Loads the best model and Word2Vec model to predict sentiments. In this case, the best model uses Word2Vec model embeddings.
 - Returns None to Safeguard Against Invalid Input. If vector is None, it means the review couldn’t be vectorized (e.g., all words are unknown to the model). Attempting to reshape or predict on None would cause an error, so returning None prevents crashes and signals to the caller (e.g., the Streamlit app) that no prediction is possible.
-
+  
 A snippet from `app.py`:
 ```python
 def predict(self, features):
@@ -207,11 +242,9 @@ def predict(self, features):
 ```
 
 ### 5️⃣ Web Application
-- Uses Streamlit to allow users to input reviews and view sentiment predictions.
+- Uses Streamlit to allow users to input reviews and view sentiment predictions.A snippet 
+- from `app.py`:
 ```python
-import streamlit as st
-from src.components.data_transformation import DataTransformation
-
 st.title("Kindle Review Sentiment Analysis")
 review_text = st.text_area("Enter your review text here:", "")
 if st.button("Analyze"):
