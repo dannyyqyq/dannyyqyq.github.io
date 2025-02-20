@@ -33,7 +33,7 @@ This project uses Artificial Neural Networks (ANN) to predict customer churn for
 - **Classification Model**: 
   - Artificial Neural Network (ANN) built with TensorFlow/Keras, including multiple dense layers, batch normalization, and dropout for regularization.
 - **Feature Engineering**: 
-  - StandardScaler for numerical features, OneHotEncoder/FunctionTransformer for categorical features. The model’s performance is detailed in the repository’s documentation or logs.
+  - StandardScaler for numerical features, OneHotEncoder/FunctionTransformer for categorical features.
 - **Model Evaluation**:
 
   | Metric              | Value    |
