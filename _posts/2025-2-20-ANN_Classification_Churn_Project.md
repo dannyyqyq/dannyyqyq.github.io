@@ -1,7 +1,7 @@
 ---
 layout: post
-title: ANN Customer Churn Classification Project
-image: "/posts/churn_prediction.png"
+title: ANN Customer Churn Classification End-to-End Deployment Project
+image: "/posts/ann_classification_churn.png"
 tags: [Python, Machine Learning, Artificial Neural Networks, Classification, Streamlit, TensorFlow, Keras, Scikit-learn]
 github_repo: "[dannyyqyq/ANN_Classification_churn](https://github.com/dannyyqyq/ANN_Classification_churn)"
 ---
@@ -14,14 +14,14 @@ Experience the Customer Churn Prediction live!
 [Live Demo: Customer Churn Prediction](https://ann-churn-prediction.streamlit.app/)
 
 ## 📌 Project Overview
-This project uses Artificial Neural Networks (ANN) to predict customer churn for a telecom company, helping businesses retain customers by identifying at-risk individuals. It leverages a dataset of customer records processed with TensorFlow/Keras for classification. The project covers:
+This project uses Artificial Neural Networks (ANN) to predict customer churn for a bank, helping businesses retain customers by identifying at-risk individuals. It leverages a dataset of customer records from a bank, processed with TensorFlow/Keras for classification. The project covers:
 
 - **Data Ingestion**: Loading and preparing customer data from CSV files for analysis.
 - **Data Transformation**: Preprocessing and encoding categorical data for model training.
 - **Model Training**: Training an ANN to classify customers as likely to churn or not.
 - **Prediction Pipeline**: Applying the trained model to predict churn for new customer data.
 - **Web Application**: A Streamlit-based interface for users to input customer data and get churn predictions.
-- **Deployment**: Deployed on Streamlit Cloud for live access
+- **Deployment**: Deployed on Streamlit Cloud for live access.
 
 ## 🛠 Tools and Technologies Used
 
@@ -36,12 +36,14 @@ This project uses Artificial Neural Networks (ANN) to predict customer churn for
   - StandardScaler for numerical features, OneHotEncoder/FunctionTransformer for categorical features. The model’s performance is detailed in the repository’s documentation or logs.
 - **Model Evaluation**:
 
-| Metric              | Value    |
-| ------------------- | -------- |
-| Accuracy            | 0.8687   |
-| Precision (Churn=1) | 0.7513   |
-| Recall (Churn=1)    | 0.4863   |
-| F1-Score (Churn=1)  | 0.5904   |
+  | Metric              | Value    |
+  | ------------------- | -------- |
+  | Accuracy            | 0.8687   |
+  | Precision (Churn=1) | 0.7513   |
+  | Recall (Churn=1)    | 0.4863   |
+  | F1-Score (Churn=1)  | 0.5904   |
+
+  *Note: Values may vary slightly based on dataset splits and hyperparameters.*
 
 ## 📂 Project Structure
 
@@ -81,8 +83,8 @@ ANN_Classification_churn/
 ## 🚀 How It Works
 
 ### 1️⃣ Data Ingestion
-- Loads customer churn data from a CSV file and saves it for further processing.
-- Splits dataset into train and set set to prevent data leakage when preprocessing
+- Loads customer churn data from a CSV file (e.g., 10,000 records from a bank dataset) and saves it for further processing.
+- Splits the dataset into train and test sets to prevent data leakage when preprocessing.
   
 Here's a snippet from `data_ingestion.py`:
 ```python
@@ -129,7 +131,7 @@ Here's a snippet from `data_transformation.py.py`:
   encoded_cats = encoder.fit_transform(df[categorical_cols])
   encoded_df = pd.DataFrame(encoded_cats, columns=encoder.get_feature_names_out(categorical_cols))
 ```  
-Here's a snippet from `data_transformation.py.py` for saving preprocessor object:
+Here's a snippet from `data_transformation.py.py` for the pipeline:
 ```python
   def get_data_transformer(self):
       """Creates and returns a data preprocessing pipeline."""
@@ -152,7 +154,8 @@ Here's a snippet from `data_transformation.py.py` for saving preprocessor object
 - The trained model is saved as an object for deployment.
 
 **Training and Validation Loss:**
-![Loss Plot](img/posts/ann_churn_loss_plot.png)
+[Loss Plot](img/posts/ann_churn_loss_plot.png)
+
 *This plot shows the training and validation loss over epochs. It illustrates the model's learning progress and helps identify potential overfitting or underfitting.*
 
 A snippet from `model_trainer.py`:
@@ -189,8 +192,6 @@ A snippet from `model_trainer.py` for saving the model:
           )
           return model
 ```
-
-Loss function chart
 
 ### 4️⃣ Prediction Pipeline
 - Loads the trained model and preprocessor object to transform and predict churn for new customer data.
@@ -271,8 +272,8 @@ A snippet from `app.py`:
 * **Label imbalance:**
   - Approxmiately 80:20 for the labels which will affect the model being heavily biased towards predicted non-churn cases, resulting in poor performance on the minority (churn) class.
 * **Model Metric:**
-  - The model accuracy is around 86% but only a recall score of 48%. It means the model only correctly identifies about 49% of the actual churn cases. This indicates that the model is missing a significant number of customers who are actually churning.
-  - Using F1 score for a more prudent approach only put our model at 59% which confirms  confirms that the model's performance on the minority class (churn) is suboptimal.
+  - Approximately 80:20 split for non-churn:churn, causing the model to be heavily biased toward predicting non-churn cases, resulting in poor performance on the minority (churn) class. This imbalance led to an accuracy of around 86%, but only a recall score of 48%, meaning the model correctly identifies about 49% of actual churn cases.
+  - Using the F1-score for a more balanced evaluation, the model achieves 59%, confirming suboptimal performance on the minority class (churn). Missing churn cases could lead to lost revenue for the bank, highlighting the need for improved recall.
 
 ## 🔮 Next Steps / Potential Improvements
 
@@ -281,12 +282,11 @@ A snippet from `app.py`:
         * Given the observed class imbalance, we can explore techniques such as oversampling (e.g., SMOTE), undersamplingto improve the model's performance on the minority class (churn).
         * We will focus on optimizing recall to ensure that we capture a higher percentage of actual churn cases, as this is crucial for effective customer retention.
     * **Architecture and Hyperparameter Tuning:**
-        * Experiment with deeper architectures, including LSTM or CNN models, to capture more complex patterns in the data.
-        * Conduct thorough hyperparameter tuning using techniques like grid search to maximize model performance.
+        * Experiment with deeper architectures (e.g., LSTM, CNN) or hyperparameter tuning using grid search to maximize model performance.
     * **Evaluation Metrics:**
-        * We will focus on optimizing evaluation metrics such as recall and F1-score, as accuracy alone is not a good metric for imbalanced data.
+        * Prioritize recall and F1-score optimization, as accuracy alone is misleading for imbalanced data.
 * **🧪 Automated Testing and CI/CD:**
     * Implement unit tests for data preprocessing, model training, and prediction pipelines to ensure code reliability.
-    * Implement CI/CD pipelines, to automate the testing and deployment of the model.
+    * Set up CI/CD pipelines to automate testing and deployment of the model.
   
 🔥  This project showcases my end-to-end journey in building and deploying an artificial neural network using TensorFlow/Keras, with a focus on optimization and regularization for improved model accuracy. 🚀
