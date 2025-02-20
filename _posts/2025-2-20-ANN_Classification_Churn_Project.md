@@ -154,6 +154,7 @@ Here's a snippet from `data_transformation.py.py` for the pipeline:
 - The trained model is saved as an object for deployment.
 
 **Training and Validation Loss:**
+
 ![Loss Plot](/img/posts/ann_churn_loss_plot.png)
 
 *This plot shows the training and validation loss over epochs. It illustrates the model's learning progress and helps identify potential overfitting or underfitting.*
