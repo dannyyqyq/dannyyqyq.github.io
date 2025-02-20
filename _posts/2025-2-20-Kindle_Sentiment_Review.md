@@ -141,7 +141,7 @@ def data_transformation(self, df):
 **Bag of Words (BoW)**
 - Using BOW, Converts text into a matrix of word counts, used with a Naive Bayes classifier.
 
-A snippet from `model_trainer.py`:
+Here's a snippet from `model_trainer.py`:
 ```python
 bow = CountVectorizer()
 X_train_bow = bow.fit_transform(X_train).toarray()
@@ -154,7 +154,7 @@ accuracy_score_bow = accuracy_score(y_test, y_pred_bow)
 **Term Frequency-Inverse Document Frequency(TF-IDF)**
 - Transforms text into TF-IDF features (term frequency-inverse document frequency), used with Naive Bayes
   
-A snippet from `model_trainer.py`:
+Here's a snippet from `model_trainer.py`:
 ```python
 tfidf = TfidfVectorizer()
 X_train_tfidf = tfidf.fit_transform(X_train).toarray()
@@ -167,7 +167,7 @@ accuracy_score_tfidf = accuracy_score(y_test, y_pred_tfidf)
 **Word2Vec**
 - Trains a Word2Vec model to generate word embeddings for the review text.
   
-A snippet from `model_trainer.py`:
+Here's a snippet from `model_trainer.py`:
 ```python
 def training_dataset_Word2Vec(df, vector_size=100):
     try:
@@ -193,7 +193,8 @@ def training_dataset_Word2Vec(df, vector_size=100):
 
 **AvgWord2Vec**
 - Computes the average Word2Vec vector for each review, used with Random Forest.
-A snippet from `model_trainer.py`:
+  
+Here's a snippet from `model_trainer.py`:
 ```python
   def avg_word2vec(model, doc):
       """
@@ -210,7 +211,7 @@ A snippet from `model_trainer.py`:
 **Model Trainer for AvgWord2Vec**
 - Trains a Word2Vec model on text data from a DataFrame.
   
-A snippet from `model_trainer.py`:
+Here's a snippet from `model_trainer.py`:
 ```python
 train_vecs, word2vec_model = ModelTrainer.training_dataset_Word2Vec(train_data)
 test_vecs, _ = ModelTrainer.training_dataset_Word2Vec(test_data)
@@ -231,7 +232,7 @@ To prevent shape mismatched:
 - Loads the best model and Word2Vec model to predict sentiments. In this case, the best model uses Word2Vec model embeddings.
 - Returns None to Safeguard Against Invalid Input. If vector is None, it means the review couldn’t be vectorized (e.g., all words are unknown to the model). Attempting to reshape or predict on None would cause an error, so returning None prevents crashes and signals to the caller (e.g., the Streamlit app) that no prediction is possible.
   
-A snippet from `app.py`:
+Here's a snippet from `app.py`:
 ```python
 def predict(self, features):
     vector = avg_word2vec(w2v_model, features)
@@ -242,8 +243,9 @@ def predict(self, features):
 ```
 
 ### 5️⃣ Web Application
-- Uses Streamlit to allow users to input reviews and view sentiment predictions.A snippet 
-- from `app.py`:
+- Uses Streamlit to allow users to input reviews and view sentiment predictions
+  
+Here's a snippet from `app.py`:
 ```python
 st.title("Kindle Review Sentiment Analysis")
 review_text = st.text_area("Enter your review text here:", "")
