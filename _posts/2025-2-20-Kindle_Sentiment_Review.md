@@ -79,16 +79,16 @@ NLP_kindle_classification/
 
 Here's a snippet from `data_ingestion.py`:
 ```python
-def initiate_data_ingestion(self):
-    try:
-        df = pd.read_csv(self.ingestion_config.base_data_path)
-        logging.info("Read the dataset as dataframe")
-        directory = os.path.dirname(self.ingestion_config.raw_data_path)
-        os.makedirs(directory, exist_ok=True)
-        df.to_csv(self.ingestion_config.raw_data_path, index=False)
-        return df, self.ingestion_config.raw_data_path
-    except Exception as e:
-        raise CustomException(e, sys)
+  def initiate_data_ingestion(self):
+      try:
+          df = pd.read_csv(self.ingestion_config.base_data_path)
+          logging.info("Read the dataset as dataframe")
+          directory = os.path.dirname(self.ingestion_config.raw_data_path)
+          os.makedirs(directory, exist_ok=True)
+          df.to_csv(self.ingestion_config.raw_data_path, index=False)
+          return df, self.ingestion_config.raw_data_path
+      except Exception as e:
+          raise CustomException(e, sys)
 ```
 
 ### 2️⃣ Data Transformation
@@ -96,20 +96,20 @@ def initiate_data_ingestion(self):
   
   Here's a snippet from `data_transformation.py`:
 ```python
-def data_transformation(self, df):
-    try:
-        df = df[["reviewText", "rating"]].copy()
-        df["rating"] = (df["rating"] >= 3).astype(int)  
-        # Convert rating: 1 if >=3, else 0
-        df["reviewText"] = df["reviewText"].astype(str).str.lower()  
-        # Convert to lowercase
-        df["reviewText"] = df["reviewText"].apply(
-            lambda x: self.special_chars_pattern.sub("", x)  
-        # Remove special characters
-        )
-        return df
-    except Exception as e:
-        raise CustomException(e, sys)
+  def data_transformation(self, df):
+      try:
+          df = df[["reviewText", "rating"]].copy()
+          df["rating"] = (df["rating"] >= 3).astype(int)  
+          # Convert rating: 1 if >=3, else 0
+          df["reviewText"] = df["reviewText"].astype(str).str.lower()  
+          # Convert to lowercase
+          df["reviewText"] = df["reviewText"].apply(
+              lambda x: self.special_chars_pattern.sub("", x)  
+          # Remove special characters
+          )
+          return df
+      except Exception as e:
+          raise CustomException(e, sys)
 ```
 - Apply lemmatization to reduce words to their lemma (base form), improving feature representation for NLP models
   
@@ -143,12 +143,12 @@ def data_transformation(self, df):
 
 Here's a snippet from `model_trainer.py`:
 ```python
-bow = CountVectorizer()
-X_train_bow = bow.fit_transform(X_train).toarray()
-X_test_bow = bow.transform(X_test).toarray()
-nb_model_bow = GaussianNB().fit(X_train_bow, y_train)
-y_pred_bow = nb_model_bow.predict(X_test_bow)
-accuracy_score_bow = accuracy_score(y_test, y_pred_bow)
+  bow = CountVectorizer()
+  X_train_bow = bow.fit_transform(X_train).toarray()
+  X_test_bow = bow.transform(X_test).toarray()
+  nb_model_bow = GaussianNB().fit(X_train_bow, y_train)
+  y_pred_bow = nb_model_bow.predict(X_test_bow)
+  accuracy_score_bow = accuracy_score(y_test, y_pred_bow)
 ```
 
 **Term Frequency-Inverse Document Frequency(TF-IDF)**
@@ -156,12 +156,12 @@ accuracy_score_bow = accuracy_score(y_test, y_pred_bow)
   
 Here's a snippet from `model_trainer.py`:
 ```python
-tfidf = TfidfVectorizer()
-X_train_tfidf = tfidf.fit_transform(X_train).toarray()
-X_test_tfidf = tfidf.transform(X_test).toarray()
-nb_model_tfidf = GaussianNB().fit(X_train_tfidf, y_train)
-y_pred_tfidf = nb_model_tfidf.predict(X_test_tfidf)
-accuracy_score_tfidf = accuracy_score(y_test, y_pred_tfidf)
+  tfidf = TfidfVectorizer()
+  X_train_tfidf = tfidf.fit_transform(X_train).toarray()
+  X_test_tfidf = tfidf.transform(X_test).toarray()
+  nb_model_tfidf = GaussianNB().fit(X_train_tfidf, y_train)
+  y_pred_tfidf = nb_model_tfidf.predict(X_test_tfidf)
+  accuracy_score_tfidf = accuracy_score(y_test, y_pred_tfidf)
 ```
 
 **Word2Vec**
@@ -169,26 +169,26 @@ accuracy_score_tfidf = accuracy_score(y_test, y_pred_tfidf)
   
 Here's a snippet from `model_trainer.py`:
 ```python
-def training_dataset_Word2Vec(df, vector_size=100):
-    try:
-        # Initialize Word2Vec model with default parameters
-        model = Word2Vec(vector_size=vector_size, window=5)
+  def training_dataset_Word2Vec(df, vector_size=100):
+      try:
+          # Initialize Word2Vec model with default parameters
+          model = Word2Vec(vector_size=vector_size, window=5)
 
-        # Process each review directly instead of splitting into sentences
-        words = [simple_preprocess(review) for review in df["reviewText"]]
+          # Process each review directly instead of splitting into sentences
+          words = [simple_preprocess(review) for review in df["reviewText"]]
 
-        model.build_vocab(words)
-        model.train(words, total_examples=len(words), epochs=model.epochs)
+          model.build_vocab(words)
+          model.train(words, total_examples=len(words), epochs=model.epochs)
 
-        # Compute average word vector per review
-        X = [
-            ModelTrainer.avg_word2vec(model, review_words) for review_words in words
-        ]
+          # Compute average word vector per review
+          X = [
+              ModelTrainer.avg_word2vec(model, review_words) for review_words in words
+          ]
 
-        df_latest = pd.DataFrame(X)
-        df_final = pd.concat([df.reset_index(drop=True), df_latest], axis=1)
+          df_latest = pd.DataFrame(X)
+          df_final = pd.concat([df.reset_index(drop=True), df_latest], axis=1)
 
-        return df_final, model
+          return df_final, model
 ```
 
 **AvgWord2Vec**
@@ -213,14 +213,14 @@ Here's a snippet from `model_trainer.py`:
   
 Here's a snippet from `model_trainer.py`:
 ```python
-train_vecs, word2vec_model = ModelTrainer.training_dataset_Word2Vec(train_data)
-test_vecs, _ = ModelTrainer.training_dataset_Word2Vec(test_data)
+  train_vecs, word2vec_model = ModelTrainer.training_dataset_Word2Vec(train_data)
+  test_vecs, _ = ModelTrainer.training_dataset_Word2Vec(test_data)
 
-logging.info(f"Train vectors shape: {train_vecs.shape}")
-logging.info(f"Test vectors shape: {test_vecs.shape}")
+  logging.info(f"Train vectors shape: {train_vecs.shape}")
+  logging.info(f"Test vectors shape: {test_vecs.shape}")
 
-X_train_vecs = train_vecs.iloc[:len(y_train), -vector_size:].values
-X_test_vecs = test_vecs.iloc[:len(y_test), -vector_size:].values
+  X_train_vecs = train_vecs.iloc[:len(y_train), -vector_size:].values
+  X_test_vecs = test_vecs.iloc[:len(y_test), -vector_size:].values
 ```
 To prevent shape mismatched:
 
@@ -234,12 +234,12 @@ To prevent shape mismatched:
   
 Here's a snippet from `app.py`:
 ```python
-def predict(self, features):
-    vector = avg_word2vec(w2v_model, features)
-    if vector is not None:
-        vector = vector.reshape(1, -1)
-        return model.predict(vector)
-    return None
+  def predict(self, features):
+      vector = avg_word2vec(w2v_model, features)
+      if vector is not None:
+          vector = vector.reshape(1, -1)
+          return model.predict(vector)
+      return None
 ```
 
 ### 5️⃣ Web Application
@@ -247,17 +247,17 @@ def predict(self, features):
   
 Here's a snippet from `app.py`:
 ```python
-st.title("Kindle Review Sentiment Analysis")
-review_text = st.text_area("Enter your review text here:", "")
-if st.button("Analyze"):
-    if review_text:
-        data_transformer = DataTransformation()
-        df = pd.DataFrame([{'reviewText': review_text, 'rating': 0}])
-        df_transformed = data_transformer.data_transformation(df.copy())
-        df_transformed = data_transformer.lemmatizer_transformation(df_transformed)
-        prediction = predict(df_transformed['reviewText'].iloc[0])
-        sentiment = "Positive" if prediction[0] == 1 else "Negative"
-        st.write(f"The sentiment of the review is: **{sentiment}**")
+  st.title("Kindle Review Sentiment Analysis")
+  review_text = st.text_area("Enter your review text here:", "")
+  if st.button("Analyze"):
+      if review_text:
+          data_transformer = DataTransformation()
+          df = pd.DataFrame([{'reviewText': review_text, 'rating': 0}])
+          df_transformed = data_transformer.data_transformation(df.copy())
+          df_transformed = data_transformer.lemmatizer_transformation(df_transformed)
+          prediction = predict(df_transformed['reviewText'].iloc[0])
+          sentiment = "Positive" if prediction[0] == 1 else "Negative"
+          st.write(f"The sentiment of the review is: **{sentiment}**")
 ```
 
 ### 6️⃣ Deployment
