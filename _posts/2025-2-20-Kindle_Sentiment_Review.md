@@ -1,12 +1,12 @@
 ---
 layout: post
-title: NLP Kindle Review Classification End-to-End Deployment Project
+title: NLP Kindle Review Classification Project
 image: "/posts/kindle_review.png"
 tags: [Python, NLP, Machine Learning, Sentiment Analysis, Streamlit, Docker, Word2Vec, AvgWord2Vec, TF-IDF, BoW]
 github_repo: "[dannyyqyq/NLP_kindle_classification](https://github.com/dannyyqyq/NLP_kindle_classification)"
 ---
 
-# 📚 NLP Kindle Review Classification End-to-End Deployment Project
+# 📚 NLP Kindle Review Classification Project
 For more details, check out the [project repository on GitHub](https://github.com/dannyyqyq/NLP_kindle_classification).
 
 ## 🚀 Web Application
