@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Network Security System for Phishing Data
+title: Network Security System for Phishing Data End to End Deployment Project
 image: "/posts/network.jpg"
 tags: [Python, Machine Learning, Network Security, MongoDB, MLflow, FastAPI, AWS, Docker]
 github_repo: "[dannyyqyq/Student_performance](https://github.com/dannyyqyq/network_security)"
@@ -220,6 +220,14 @@ async def predict_route(request: Request, file: UploadFile = File(...)):
    ```bash
    docker run -p 8080:8080 network_security_system
    ```
+
+## ⚠️ Challenges Faced
+- **AWS Environment Setup via IAM**:
+  - Configuring the AWS environment for the network security system proved challenging due to the need to set up Identity and Access Management (IAM) roles and policies. 
+- **Ease of Azure Web App Setup with Container Registry**:
+  - Deploying the network security system on Azure Web App (Azure App Service) with a containerized approach was straightforward. I needed to configure an Azure Container Registry, push the Docker image to the registry, deploy the containerized application to Azure Web App via GitHub Actions, and link the repository to GitHub for CI/CD actions.
+- **Managing Secrets in GitHub Self-Hosted Actions**:
+  - Integrating secret manager keys and passwords into GitHub self-hosted actions presented difficulties. Ensuring secure storage and retrieval of sensitive credentials (e.g., API keys, database passwords) required configuring GitHub Secrets and Actions workflows correctly. 
 
 ## 🔮 Next Steps / Potential Improvements
 - **📈 Model Enhancement**:

@@ -1,12 +1,12 @@
 ---
 layout: post
-title: ANN Customer Churn Classification End-to-End Deployment Project
+title: ANN Customer Churn Classification Project
 image: "/posts/ann_classification_churn.png"
 tags: [Python, Machine Learning, Artificial Neural Networks, Classification, Streamlit, TensorFlow, Keras, Scikit-learn]
 github_repo: "[dannyyqyq/ANN_Classification_churn](https://github.com/dannyyqyq/ANN_Classification_churn)"
 ---
 
-# 🧠 ANN Customer Churn Classification End-to-End Deployment Project
+# 🧠 ANN Customer Churn Classification Project
 For more details, check out the [project repository on GitHub](https://github.com/dannyyqyq/ANN_Classification_churn).
 
 ## 🚀 Web Application
