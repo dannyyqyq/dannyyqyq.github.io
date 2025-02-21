@@ -273,7 +273,7 @@ A snippet from `app.py`:
 * **Label imbalance:**
   - Approxmiately 80:20 for the labels which will affect the model being heavily biased towards predicted non-churn cases, resulting in poor performance on the minority (churn) class.
 * **Model Metric:**
-  - Approximately 80:20 split for non-churn:churn, causing the model to be heavily biased toward predicting non-churn cases, resulting in poor performance on the minority (churn) class. This imbalance led to an accuracy of around 86%, but only a recall score of 48%, meaning the model correctly identifies about 49% of actual churn cases.
+  - Approximately 80:20 split for non-churn:churn, this imbalance led to an accuracy of around 86%, but only a recall score of 48%, meaning the model correctly identifies about 49% of actual churn cases.
   - Using the F1-score for a more balanced evaluation, the model achieves 59%, confirming suboptimal performance on the minority class (churn). Missing churn cases could lead to lost revenue for the bank, highlighting the need for improved recall.
 
 ## 🔮 Next Steps / Potential Improvements
