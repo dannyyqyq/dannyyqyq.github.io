@@ -6,12 +6,15 @@ tags: [Python, Machine Learning, Student Performance, Data Science, streamlit, L
 github_repo: "[dannyyqyq/Student_performance](https://github.com/dannyyqyq/qroq_search_engine_chatbot_pdf/blob/main/README.md)"
 ---
 
-
 # Chat with PDF alongside with Search Engine using GROQ! 
 
 For more details, check out the [project repository on GitHub](https://github.com/dannyyqyq/qroq_search_engine_chatbot_pdf/blob/main/README.md).
 
 This Streamlit application is a mini-project I created to explore the exciting world of Generative AI. It allows you to chat with a combination of web search results and uploaded PDF documents. I built it to learn more about LangChain, Large Language Models (LLMs), and how to integrate various AI tools into a practical application.
+
+## 🚀 Web Application
+Experience the CHATBOT live!  
+[Live Demo: GROQ search engine CHATBOT with PDF QUERY](https://groq-searchengine-and-pdf.streamlit.app/)
 
 ## Features
 
