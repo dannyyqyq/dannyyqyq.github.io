@@ -3,7 +3,7 @@ layout: post
 title: Chat with PDF alongside with Search Engine using GROQ!
 image: "/posts/chatbot_1.png"
 tags: [Python, Machine Learning, Data Science, streamlit, LLM, Huggingface, GROQ, LangChain, Search Engine]
-github_repo: "[dannyyqyq/[Student_performance](https://groq-searchengine-and-pdf.streamlit.app/)](https://github.com/dannyyqyq/F/blob/main/README.md)"
+github_repo: "[dannyyqyq/[GROQ CHATBOT with PDF QUERY](https://groq-searchengine-and-pdf.streamlit.app/)](https://github.com/dannyyqyq/F/blob/main/README.md)"
 ---
 
 # Chat with PDF alongside with Search Engine using GROQ! 
