@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Chat with PDF alongside with Search Engine using GROQ!
-image: "/posts/chatbot_1.png.webp"
+image: "/posts/chatbot_1.png"
 tags: [Python, Machine Learning, Student Performance, Data Science, streamlit, LLM, Huggingface, GROQ, LangChain, Search Engine]
 github_repo: "[dannyyqyq/Student_performance](https://github.com/dannyyqyq/qroq_search_engine_chatbot_pdf/blob/main/README.md)"
 ---
